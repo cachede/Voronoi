@@ -39,5 +39,12 @@ if (NOT raylib_cpp_FOUND)
 endif()
 
 
-add_executable(Voronoi src/main.cpp)
+add_executable(Voronoi src/main.cpp
+        src/game.hpp
+        src/screenManager.hpp
+        src/screenManager.cpp
+        src/game.cpp
+        src/renderer.cpp
+        src/renderer.hpp
+)
 target_link_libraries(${PROJECT_NAME} PUBLIC raylib raylib_cpp)

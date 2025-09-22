@@ -1,0 +1,157 @@
+/*******************************************************************************************
+*
+*   Voronoi v1.0.0 - GUI for the user input
+*
+*   MODULE USAGE:
+*       #define GUI_VORONOI_IMPLEMENTATION
+*       #include "gui_voronoi.h"
+*
+*       INIT: GuiVoronoiState state = InitGuiVoronoi();
+*       DRAW: GuiVoronoi(&state);
+*
+*   LICENSE: Propietary License
+*
+*   Copyright (c) 2022 raylib technologies. All Rights Reserved.
+*
+*   Unauthorized copying of this file, via any medium is strictly prohibited
+*   This project is proprietary and confidential unless the owner allows
+*   usage in any other form by expresely written permission.
+*
+**********************************************************************************************/
+
+#include "raylib.h"
+
+// WARNING: raygui implementation is expected to be defined before including this header
+#undef RAYGUI_IMPLEMENTATION
+#include "raygui.h"     // HIER STEHEN NUR FUNKTIONS-PROTOTYPEN
+
+#include <string.h>     // Required for: strcpy()
+
+#ifndef GUI_VORONOI_H
+#define GUI_VORONOI_H
+
+typedef struct {
+    Vector2 anchor;
+    
+    bool SiteSpinnerEditMode;
+    int SiteSpinnerValue;
+
+    Rectangle layoutRecs[6];
+
+    // Custom state variables (depend on development software)
+    // NOTE: This variables should be added manually if required
+
+} GuiVoronoiState;
+
+#ifdef __cplusplus
+extern "C" {            // Prevents name mangling of functions
+#endif
+
+//----------------------------------------------------------------------------------
+// Defines and Macros
+//----------------------------------------------------------------------------------
+//...
+
+//----------------------------------------------------------------------------------
+// Types and Structures Definition
+//----------------------------------------------------------------------------------
+// ...
+
+//----------------------------------------------------------------------------------
+// Module Functions Declaration
+//----------------------------------------------------------------------------------
+GuiVoronoiState InitGuiVoronoi(void);
+void GuiVoronoi(GuiVoronoiState *state);
+static void RandomButton();
+static void GenerateButton();
+static void ClearButton();
+static void SaveFileButton();
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif // GUI_VORONOI_H
+
+/***********************************************************************************
+*
+*   GUI_VORONOI IMPLEMENTATION - HAS TO HAPPEN ONCE, IT HAS TO
+*
+************************************************************************************/
+#if defined(GUI_VORONOI_IMPLEMENTATION)
+
+#include "raygui.h"
+#include <iostream>
+
+//----------------------------------------------------------------------------------
+// Global Variables Definition
+//----------------------------------------------------------------------------------
+//...
+static constexpr float GROUP_BOX_WIDTH = 392;
+static constexpr float GROUP_BOX_HEIGHT = 120;
+static constexpr float GUI_VORONOI_PADDING = 5;
+
+//----------------------------------------------------------------------------------
+// Internal Module Functions Definition
+//----------------------------------------------------------------------------------
+//...
+
+//----------------------------------------------------------------------------------
+// Module Functions Definition
+//----------------------------------------------------------------------------------
+GuiVoronoiState InitGuiVoronoi(const float x_position, const float y_position)
+{
+    GuiVoronoiState state = { 0 };
+
+    state.anchor = (Vector2){ x_position + GUI_VORONOI_PADDING, y_position - GROUP_BOX_HEIGHT - GUI_VORONOI_PADDING};
+
+    state.SiteSpinnerEditMode = false;
+    state.SiteSpinnerValue = 0;
+
+    state.layoutRecs[0] = (Rectangle){ state.anchor.x + 0, state.anchor.y + 0, GROUP_BOX_WIDTH, GROUP_BOX_HEIGHT };
+    state.layoutRecs[1] = (Rectangle){ state.anchor.x + 168, state.anchor.y + 24, 120, 24 };
+    state.layoutRecs[2] = (Rectangle){ state.anchor.x + 312, state.anchor.y + 24, 72, 24 };
+    state.layoutRecs[3] = (Rectangle){ state.anchor.x + 272, state.anchor.y + 80, 120, 40 };
+    state.layoutRecs[4] = (Rectangle){ state.anchor.x + 152, state.anchor.y + 80, 120, 40 };
+    state.layoutRecs[5] = (Rectangle){ state.anchor.x + 32, state.anchor.y + 80, 120, 40 };
+
+    // Custom variables initialization
+
+    return state;
+}
+static void RandomButton()
+{
+    // TODO: Implement control logic
+}
+static void GenerateButton()
+{
+    // TODO: Implement control logic
+}
+static void ClearButton()
+{
+    // TODO: Implement control logic
+}
+static void SaveFileButton()
+{
+    // TODO: Implement control logic
+}
+
+
+void GuiVoronoi(GuiVoronoiState *state)
+{
+    const char *VoronoiGroupboxText = "Voronoi Diagram Editor";
+    const char *RandomButtonText = "Random";
+    const char *GenerateText = "GENERATE";
+    const char *ClearButtonText = "CLEAR";
+    const char *SaveFileText = "SAVE FILE";
+    const char *SitesSpinnerText = "Amount of sites to generate: ";
+
+    GuiGroupBox(state->layoutRecs[0], VoronoiGroupboxText);
+    if (GuiSpinner(state->layoutRecs[1], SitesSpinnerText, &state->SiteSpinnerValue, 0, 100, state->SiteSpinnerEditMode)) state->SiteSpinnerEditMode = !state->SiteSpinnerEditMode;
+    if (GuiButton(state->layoutRecs[2], RandomButtonText)) RandomButton();
+    if (GuiButton(state->layoutRecs[3], GenerateText)) GenerateButton();
+    if (GuiButton(state->layoutRecs[4], ClearButtonText)) ClearButton();
+    if (GuiButton(state->layoutRecs[5], SaveFileText)) SaveFileButton();
+}
+
+#endif // GUI_VORONOI_IMPLEMENTATION

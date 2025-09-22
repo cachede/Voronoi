@@ -1,13 +1,22 @@
 #include <iostream>
 #include "raylib-cpp.hpp"
 
+// own includes
+#include "screenManager.hpp"
+#define RAYGUI_IMPLEMENTATION
+#include "raygui.h"         // Hier steht jetzt die RAYGUI-IMPLEMENTATION
+#define GUI_VORONOI_IMPLEMENTATION
+#include "gui_voronoi.h"
+
 int main() {
     // Initialization
     //--------------------------------------------------------------------------------------
-    const int screenWidth = 800;
-    const int screenHeight = 450;
+    ScreenManager screen_manager("Voronoi");
 
-    InitWindow(screenWidth, screenHeight, "raylib [core] example - basic window");
+    raylib::InitWindow(screen_manager.m_screen_width, screen_manager.m_screen_height, screen_manager.m_window_name);
+
+    GuiVoronoiState guiState = InitGuiVoronoi(0, screen_manager.m_screen_height);
+
 
     SetTargetFPS(60);               // Set our game to run at 60 frames-per-second
     //--------------------------------------------------------------------------------------
@@ -19,14 +28,16 @@ int main() {
         //----------------------------------------------------------------------------------
         // TODO: Update your variables here
         //----------------------------------------------------------------------------------
+        // TODO: evaluate the current user input
+
 
         // Draw
         //----------------------------------------------------------------------------------
         BeginDrawing();
 
-        ClearBackground(RAYWHITE);
+            ClearBackground(RAYWHITE);
+            GuiVoronoi(&guiState);
 
-        DrawText("Congrats! You created your first window!", 190, 200, 20, LIGHTGRAY);
 
         EndDrawing();
         //----------------------------------------------------------------------------------

@@ -56,16 +56,17 @@ extern "C" {            // Prevents name mangling of functions
 // Types and Structures Definition
 //----------------------------------------------------------------------------------
 // ...
+enum class Button : char {RANDOM_BUTTON, GENERATE_BUTTON, CLEAR_BUTTON, SAVE_FILE_BUTTON, NO_BUTTON};
 
 //----------------------------------------------------------------------------------
 // Module Functions Declaration
 //----------------------------------------------------------------------------------
 GuiVoronoiState InitGuiVoronoi(void);
-void GuiVoronoi(GuiVoronoiState *state);
-static void RandomButton();
-static void GenerateButton();
-static void ClearButton();
-static void SaveFileButton();
+inline Button GuiVoronoi(GuiVoronoiState *state);
+static Button RandomButton();
+static Button GenerateButton();
+static Button ClearButton();
+static Button SaveFileButton();
 
 #ifdef __cplusplus
 }
@@ -90,6 +91,7 @@ static void SaveFileButton();
 static constexpr float GROUP_BOX_WIDTH = 392;
 static constexpr float GROUP_BOX_HEIGHT = 120;
 static constexpr float GUI_VORONOI_PADDING = 5;
+
 
 //----------------------------------------------------------------------------------
 // Internal Module Functions Definition
@@ -119,25 +121,25 @@ GuiVoronoiState InitGuiVoronoi(const float x_position, const float y_position)
 
     return state;
 }
-static void RandomButton()
+static Button RandomButton()
 {
-    // TODO: Implement control logic
+    return Button::RANDOM_BUTTON;
 }
-static void GenerateButton()
+static Button GenerateButton()
 {
-    // TODO: Implement control logic
+    return Button::GENERATE_BUTTON;
 }
-static void ClearButton()
+static Button ClearButton()
 {
-    // TODO: Implement control logic
+    return Button::CLEAR_BUTTON;
 }
-static void SaveFileButton()
+static Button SaveFileButton()
 {
-    // TODO: Implement control logic
+    return Button::SAVE_FILE_BUTTON;
 }
 
 
-void GuiVoronoi(GuiVoronoiState *state)
+inline Button GuiVoronoi(GuiVoronoiState *state)
 {
     const char *VoronoiGroupboxText = "Voronoi Diagram Editor";
     const char *RandomButtonText = "Random";
@@ -146,12 +148,16 @@ void GuiVoronoi(GuiVoronoiState *state)
     const char *SaveFileText = "SAVE FILE";
     const char *SitesSpinnerText = "Amount of sites to generate: ";
 
+    Button button_pressed = Button::NO_BUTTON;
+
     GuiGroupBox(state->layoutRecs[0], VoronoiGroupboxText);
     if (GuiSpinner(state->layoutRecs[1], SitesSpinnerText, &state->SiteSpinnerValue, 0, 100, state->SiteSpinnerEditMode)) state->SiteSpinnerEditMode = !state->SiteSpinnerEditMode;
-    if (GuiButton(state->layoutRecs[2], RandomButtonText)) RandomButton();
-    if (GuiButton(state->layoutRecs[3], GenerateText)) GenerateButton();
-    if (GuiButton(state->layoutRecs[4], ClearButtonText)) ClearButton();
-    if (GuiButton(state->layoutRecs[5], SaveFileText)) SaveFileButton();
+    if (GuiButton(state->layoutRecs[2], RandomButtonText)) button_pressed = RandomButton();
+    if (GuiButton(state->layoutRecs[5], SaveFileText)) button_pressed = SaveFileButton();
+    if (GuiButton(state->layoutRecs[4], ClearButtonText)) button_pressed = ClearButton();
+    if (GuiButton(state->layoutRecs[3], GenerateText)) button_pressed = GenerateButton();
+
+    return button_pressed;
 }
 
 #endif // GUI_VORONOI_IMPLEMENTATION

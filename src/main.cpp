@@ -17,6 +17,7 @@ int main() {
 
     GuiVoronoiState guiState = InitGuiVoronoi(0, screen_manager.m_screen_height);
 
+    Button current_button = Button::NO_BUTTON;
 
     SetTargetFPS(60);               // Set our game to run at 60 frames-per-second
     //--------------------------------------------------------------------------------------
@@ -36,7 +37,7 @@ int main() {
         BeginDrawing();
 
             ClearBackground(RAYWHITE);
-            GuiVoronoi(&guiState);
+            current_button = GuiVoronoi(&guiState);
 
 
         EndDrawing();

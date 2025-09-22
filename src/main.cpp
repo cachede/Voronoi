@@ -36,7 +36,15 @@ int main() {
         //----------------------------------------------------------------------------------
         // TODO: evaluate the current user input
         if(current_button == Button::GENERATE_BUTTON) {
-            game.generate(5);
+
+            int amount_sites = guiState.SiteSpinnerValue;
+            game.generate(amount_sites);
+        } else if (current_button == Button::CLEAR_BUTTON) {
+            game.clear();
+        } else if (current_button == Button::RANDOM_BUTTON) {
+
+            int random_number = rand() % 100 + 1;
+            guiState.SiteSpinnerValue = random_number;
         }
 
         // Draw

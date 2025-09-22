@@ -7,6 +7,8 @@
 #include "raygui.h"         // Hier steht jetzt die RAYGUI-IMPLEMENTATION
 #define GUI_VORONOI_IMPLEMENTATION
 #include "gui_voronoi.h"
+#include "voronoi.hpp"
+#include "renderer.hpp"
 
 int main() {
     // Initialization
@@ -19,6 +21,9 @@ int main() {
 
     Button current_button = Button::NO_BUTTON;
 
+    Voronoi game;
+    Renderer renderer(game);
+
     SetTargetFPS(60);               // Set our game to run at 60 frames-per-second
     //--------------------------------------------------------------------------------------
 
@@ -30,7 +35,9 @@ int main() {
         // TODO: Update your variables here
         //----------------------------------------------------------------------------------
         // TODO: evaluate the current user input
-
+        if(current_button == Button::GENERATE_BUTTON) {
+            game.generate(5);
+        }
 
         // Draw
         //----------------------------------------------------------------------------------
@@ -38,7 +45,7 @@ int main() {
 
             ClearBackground(RAYWHITE);
             current_button = GuiVoronoi(&guiState);
-
+            renderer.render();
 
         EndDrawing();
         //----------------------------------------------------------------------------------

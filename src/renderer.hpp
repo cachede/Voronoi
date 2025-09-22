@@ -5,13 +5,22 @@
 #ifndef RENDERER_HPP
 #define RENDERER_HPP
 
-#include "game.hpp"
+#include "voronoi.hpp"
+
+static const raylib::Color s_background_color{0xFF, 0xF4, 0xCE};
+
 
 class Renderer {
 
 public:
-    Renderer(Game& game);
+    Renderer(Voronoi& game);
+    void render();
 
+
+private:
+
+
+    Voronoi& m_voronoi;
 };
 
 #endif //RENDERER_HPP

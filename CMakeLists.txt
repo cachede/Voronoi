@@ -40,10 +40,10 @@ endif()
 
 
 add_executable(Voronoi src/main.cpp
-        src/game.hpp
+        src/voronoi.hpp
         src/screenManager.hpp
         src/screenManager.cpp
-        src/game.cpp
+        src/voronoi.cpp
         src/renderer.cpp
         src/renderer.hpp
 )

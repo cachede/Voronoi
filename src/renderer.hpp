@@ -7,8 +7,6 @@
 
 #include "voronoi.hpp"
 
-static const raylib::Color s_background_color{0xFF, 0xF4, 0xCE};
-
 
 class Renderer {
 

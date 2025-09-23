@@ -6,9 +6,11 @@
 #include <random>
 #include <iostream>
 
-Voronoi::Voronoi() {
+Voronoi::Voronoi(float min_x_pos, float max_x_pos, float min_y_pos, float max_y_pos, float padding) {
 
-    m_bb_rectangle = raylib::Rectangle(s_min_x_pos - s_padding, s_min_y_pos - s_padding, s_max_x_pos - s_min_x_pos + s_padding, s_max_y_pos - s_min_y_pos + s_padding);
+    m_bb_rectangle = raylib::Rectangle(min_x_pos - padding, min_y_pos - padding, max_x_pos - min_x_pos + 2 * padding, max_y_pos - min_y_pos + 2 * padding);
+
+    m_padding = padding;
 }
 
 void Voronoi::generate(uint16_t amount_sites) {
@@ -17,12 +19,17 @@ void Voronoi::generate(uint16_t amount_sites) {
 
     for(size_t i = 0; i < amount_sites; i++) {
 
-        float random_x = generate_random_number(s_min_x_pos, s_max_x_pos);
-        float random_y = generate_random_number(s_min_y_pos, s_max_y_pos);
+        float random_x = generate_random_number(m_bb_rectangle.x + m_padding, m_bb_rectangle.x + m_bb_rectangle.width -  2 * m_padding);
+        float random_y = generate_random_number(m_bb_rectangle.y + m_padding, m_bb_rectangle.y + m_bb_rectangle.height - 2 * m_padding);
 
         m_sites.push_back(raylib::Vector2(random_x, random_y));
     }
 
+}
+
+void Voronoi::generate_at(raylib::Vector2 pos) {
+
+    m_sites.push_back(pos);
 }
 
 void Voronoi::clear() {
@@ -44,6 +51,9 @@ float Voronoi::generate_random_number(float min, float max) {
 }
 
 raylib::Rectangle Voronoi::getBBBox() {
+
+    raylib::Rectangle rec(m_bb_rectangle.x + m_padding, m_bb_rectangle.y + m_padding, m_bb_rectangle.width -  2 * m_padding,
+        m_bb_rectangle.height - 2 * m_padding);
     return m_bb_rectangle;
 }
 

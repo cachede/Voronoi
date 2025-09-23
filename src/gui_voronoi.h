@@ -40,6 +40,7 @@ typedef struct {
 
     // Custom state variables (depend on development software)
     // NOTE: This variables should be added manually if required
+    raylib::Rectangle voronoi_window;
 
 } GuiVoronoiState;
 
@@ -56,7 +57,7 @@ extern "C" {            // Prevents name mangling of functions
 // Types and Structures Definition
 //----------------------------------------------------------------------------------
 // ...
-enum class Button : char {RANDOM_BUTTON, GENERATE_BUTTON, CLEAR_BUTTON, SAVE_FILE_BUTTON, NO_BUTTON};
+enum class Button : char {RANDOM_BUTTON, GENERATE_BUTTON, CLEAR_BUTTON, SAVE_FILE_BUTTON, WINDOW_PRESSED, NO_BUTTON};
 
 //----------------------------------------------------------------------------------
 // Module Functions Declaration
@@ -92,6 +93,14 @@ static constexpr float GROUP_BOX_WIDTH = 392;
 static constexpr float GROUP_BOX_HEIGHT = 120;
 static constexpr float GUI_VORONOI_PADDING = 5;
 
+static constexpr float s_min_x_pos = 50;
+static constexpr float s_max_x_pos = 1024 - 50;
+static constexpr float s_min_y_pos = 50;
+static constexpr float s_max_y_pos = 768 - 120 - 50;
+static constexpr float s_padding   = 10.0f;
+
+static const raylib::Color s_background_color{0xFF, 0xF4, 0xCE};
+
 
 //----------------------------------------------------------------------------------
 // Internal Module Functions Definition
@@ -118,6 +127,9 @@ GuiVoronoiState InitGuiVoronoi(const float x_position, const float y_position)
     state.layoutRecs[5] = (Rectangle){ state.anchor.x + 32, state.anchor.y + 80, 120, 40 };
 
     // Custom variables initialization
+
+    state.voronoi_window = raylib::Rectangle(s_min_x_pos, s_min_y_pos, s_max_x_pos - s_min_x_pos, s_max_y_pos - s_min_y_pos);
+
 
     return state;
 }
@@ -156,6 +168,19 @@ inline Button GuiVoronoi(GuiVoronoiState *state)
     if (GuiButton(state->layoutRecs[5], SaveFileText)) button_pressed = SaveFileButton();
     if (GuiButton(state->layoutRecs[4], ClearButtonText)) button_pressed = ClearButton();
     if (GuiButton(state->layoutRecs[3], GenerateText)) button_pressed = GenerateButton();
+
+    state->voronoi_window.Draw(s_background_color);
+    state->voronoi_window.DrawLines(BLACK);
+
+    raylib::Vector2 current_mouse_pos = GetMousePosition();
+    bool left_click_pressed = IsMouseButtonPressed(MOUSE_BUTTON_LEFT);
+    bool intersection = CheckCollisionPointRec(current_mouse_pos, state->voronoi_window);
+
+    if(!left_click_pressed && intersection) {
+        current_mouse_pos.DrawCircle(3.0f, BLACK);
+    } else if (left_click_pressed && intersection) {
+        button_pressed = Button::WINDOW_PRESSED;
+    }
 
     return button_pressed;
 }

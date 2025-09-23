@@ -21,7 +21,7 @@ int main() {
 
     Button current_button = Button::NO_BUTTON;
 
-    Voronoi game;
+    Voronoi game(s_min_x_pos, s_max_x_pos, s_min_y_pos, s_max_y_pos, s_padding);
     Renderer renderer(game);
 
     SetTargetFPS(60);               // Set our game to run at 60 frames-per-second
@@ -45,6 +45,9 @@ int main() {
 
             int random_number = rand() % 100 + 1;
             guiState.SiteSpinnerValue = random_number;
+        } else if(current_button == Button::WINDOW_PRESSED) {
+            raylib::Vector2 current_mouse_pos = GetMousePosition();
+            game.generate_at(current_mouse_pos);
         }
 
         // Draw

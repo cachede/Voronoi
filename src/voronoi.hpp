@@ -10,28 +10,24 @@
 
 #include "raylib-cpp.hpp"
 
-// i guess i can rename this to vornoi.hpp
+
 class Voronoi {
 
 public:
 
-    explicit Voronoi();
+    explicit Voronoi(float min_x_pos, float max_x_pos, float min_y_pos, float max_y_pos, float padding);
     void generate(uint16_t amount_sites);
+    void generate_at(raylib::Vector2 pos);
     void clear();
     raylib::Rectangle getBBBox();
     std::vector<raylib::Vector2>& get_sites();
     //TODO: hardcoded values
-    static constexpr float s_min_x_pos = 50;
-    static constexpr float s_max_x_pos = 1024 - 50;
-    static constexpr float s_min_y_pos = 50;
-    static constexpr float s_max_y_pos = 768 - 120 - 50;
-    static constexpr float s_padding   = 10.0f;
 
 private:
 
     raylib::Rectangle               m_bb_rectangle;
     std::vector<raylib::Vector2>    m_sites;
-
+    float m_padding;
 
     static float generate_random_number(float min, float max);
 

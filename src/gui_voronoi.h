@@ -174,7 +174,7 @@ inline Button GuiVoronoi(GuiVoronoiState *state)
 
     raylib::Vector2 current_mouse_pos = GetMousePosition();
     bool left_click_pressed = IsMouseButtonPressed(MOUSE_BUTTON_LEFT);
-    bool intersection = CheckCollisionPointRec(current_mouse_pos, state->voronoi_window);
+    bool intersection = current_mouse_pos.CheckCollision(state->voronoi_window);
 
     if(!left_click_pressed && intersection) {
         current_mouse_pos.DrawCircle(3.0f, BLACK);

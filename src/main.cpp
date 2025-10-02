@@ -38,7 +38,10 @@ int main() {
         if(current_button == Button::GENERATE_BUTTON) {
 
             int amount_sites = guiState.SiteSpinnerValue;
-            game.generate(amount_sites);
+            game.generate_random(amount_sites);
+            std::cout << "BEFORE" << std::endl;
+            game.generate();
+            std::cout << "AFTER" << std::endl;
         } else if (current_button == Button::CLEAR_BUTTON) {
             game.clear();
         } else if (current_button == Button::RANDOM_BUTTON) {
@@ -57,6 +60,7 @@ int main() {
             ClearBackground(RAYWHITE);
             current_button = GuiVoronoi(&guiState);
             renderer.render();
+
 
         EndDrawing();
         //----------------------------------------------------------------------------------

@@ -51,12 +51,25 @@ int main() {
             int random_number = rand() % 100 + 1;
             guiState.SiteSpinnerValue = random_number;
         } else if(current_button == Button::WINDOW_PRESSED) {
+
             raylib::Vector2 current_mouse_pos = GetMousePosition();
             if(game.get_sites().size() == 0) {
+                //current_mouse_pos.x = (s_max_x_pos + s_padding) / 3;
+                //current_mouse_pos.y = (s_max_y_pos + s_padding) / 3;
+
                 Site site(current_mouse_pos, RED);
                 game.generate_at(site);
-            } else {
+            } else if(game.get_sites().size() == 1) {
+                //current_mouse_pos.x = (s_max_x_pos + s_padding) / 3;
+                //current_mouse_pos.y = (s_max_y_pos + s_padding) / 3 * 2;
+
                 Site site(current_mouse_pos, BLUE);
+                game.generate_at(site);
+            } else {
+                //current_mouse_pos.x = (s_max_x_pos + s_padding) / 3 * 2;
+                //current_mouse_pos.y = (s_max_y_pos + s_padding) / 2;
+
+                Site site(current_mouse_pos, GREEN);
                 game.generate_at(site);
             }
         }

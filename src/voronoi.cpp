@@ -47,15 +47,17 @@ int Voronoi::generate() {
 
         auto cell = m_bounding_cell;
         auto _current_site = current_site.getPosition();
-        size_t cell_size = cell.size();
 
-        std::vector<raylib::Vector2> current_new_cell;
 
         for(auto& neighbor_site : m_sites) {
+
             auto _neighbor_site = neighbor_site.getPosition();
             if(_current_site == _neighbor_site) {
                 continue;
             }
+            size_t cell_size = cell.size();
+
+            std::vector<raylib::Vector2> current_new_cell;
 
             raylib::Vector3 bisector = calculate_bisector(_current_site, _neighbor_site);
 
@@ -137,7 +139,7 @@ int Voronoi::generate() {
         }//for neightbor_site
 
         if(!cell.empty()) {
-            m_voronoi_cells.push_back(current_new_cell);
+            m_voronoi_cells.push_back(cell);
         }
 
         current_site_index++;

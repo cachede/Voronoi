@@ -9,6 +9,7 @@
 #include "gui_voronoi.h"
 #include "voronoi.hpp"
 #include "renderer.hpp"
+#include "Site.hpp"
 
 int main() {
     // Initialization
@@ -43,6 +44,7 @@ int main() {
             game.generate();
             std::cout << "AFTER" << std::endl;
         } else if (current_button == Button::CLEAR_BUTTON) {
+
             game.clear();
         } else if (current_button == Button::RANDOM_BUTTON) {
 
@@ -50,7 +52,13 @@ int main() {
             guiState.SiteSpinnerValue = random_number;
         } else if(current_button == Button::WINDOW_PRESSED) {
             raylib::Vector2 current_mouse_pos = GetMousePosition();
-            game.generate_at(current_mouse_pos);
+            if(game.get_sites().size() == 0) {
+                Site site(current_mouse_pos, RED);
+                game.generate_at(site);
+            } else {
+                Site site(current_mouse_pos, BLUE);
+                game.generate_at(site);
+            }
         }
 
         // Draw

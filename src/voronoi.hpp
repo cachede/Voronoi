@@ -10,6 +10,7 @@
 #include <vector>
 
 #include "raylib-cpp.hpp"
+#include "Site.hpp"
 
 
 class Voronoi {
@@ -18,11 +19,11 @@ public:
 
     explicit Voronoi(float min_x_pos, float max_x_pos, float min_y_pos, float max_y_pos, float padding);
     void generate_random(uint16_t amount_sites);
-    void generate_at(raylib::Vector2 pos);
+    void generate_at(Site site);
     int generate();
     void clear();
     std::vector<raylib::Vector2>& getBBBox();
-    std::vector<raylib::Vector2>& get_sites();
+    std::vector<Site>& get_sites();
     std::vector<std::vector<raylib::Vector2>>& get_voronoi_cells();
 
 private:
@@ -33,10 +34,10 @@ private:
     static constexpr size_t BL_INDEX = 3;
 
 
-    std::vector<raylib::Vector2>    m_cell;
-    std::vector<raylib::Vector2>    m_sites;
-    float m_padding;
+    std::vector<raylib::Vector2>              m_bounding_cell;
+    std::vector<Site>                         m_sites;
     std::vector<std::vector<raylib::Vector2>> m_voronoi_cells;
+    float m_padding;
 
     static float generate_random_number(float min, float max);
     static raylib::Vector3 calculate_bisector(raylib::Vector2 a, raylib::Vector2 b);

@@ -46,5 +46,7 @@ add_executable(Voronoi src/main.cpp
         src/voronoi.cpp
         src/renderer.cpp
         src/renderer.hpp
+        src/site.cpp
+        src/site.hpp
 )
 target_link_libraries(${PROJECT_NAME} PUBLIC raylib raylib_cpp)
